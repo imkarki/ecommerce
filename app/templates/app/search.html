@@ -1,0 +1,33 @@
+{% extends 'app/index.html' %}
+{% load static %}
+
+{% block main-content %}
+<h1>Search Results</h1>
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="row">
+                {% for prod in products %}  <!-- Corrected variable name -->
+                <div class="col-sm-4 text-center mb-4 hover-shadow">
+                    <a href="{% url 'product-all' prod.id %}" class="btn">
+                        <div>
+                            <img src="{{ prod.product_image.url }}" width="300px" height="200px"/>
+                            <div class="fw-bold">{{ prod.title }}</div>
+                            <div class="fw-bold text-danger">
+                                Rs.{{ prod.discount_price }}/-
+                                <small class="fw-light text-decoration-line-through">
+                                    {{ prod.selling_price }}
+                                </small>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {% empty %}
+                <p>No products found.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock main-content %}

@@ -1,0 +1,42 @@
+{% extends 'app/index.html' %}
+{% load static %}
+
+{% block main-content %}
+
+<div class="container mt-4">
+    <h2 class="text-center text-primary">Welcome to {{ request.user }}'s Profile 😊</h2>
+
+    <!-- Profile and Detail Buttons -->
+    <div class="d-flex justify-content-end mt-3">
+        <a href="{% url 'profile' %}" class="btn btn-primary">Profile</a>
+    </div>
+
+    <!-- Address Cards Section -->
+    <div class="row mt-4">
+        {% for im in form %}
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 m-2">
+                <div class="card-body">
+                    <h4 class="text-center text-secondary">Address {{ forloop.counter }}</h4>
+                    <hr>
+                    <p><strong>Name:</strong> {{ im.name }}</p>
+                    <p><strong>Locality:</strong> {{ im.locality }}</p>
+                    <p><strong>Mobile:</strong> {{ im.mobile }}</p>
+                    <p><strong>Country:</strong> {{ im.country }}</p>
+                    <p><strong>Zipcode:</strong> {{ im.zipcode }}</p>
+                    <p><strong>District:</strong> {{ im.district }}</p>
+
+                    <!-- Update Button -->
+                    <div class="text-center mt-3">
+                        <a href="{% url 'update' pk=im.id %}" class="btn btn-info text-white">Update</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center text-danger">No address records found.</p>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock main-content %}

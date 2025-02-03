@@ -1,0 +1,25 @@
+p{
+    color:blue;
+}
+
+h1{
+    color:blue;
+}
+
+.contain{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+ 
+}
+
+.contain .cont{
+    margin:70px;
+    
+    box-shadow:10px 10px 3px lightblue;
+    
+}
+
+.cont p{
+    text-align:center;
+}

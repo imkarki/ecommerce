@@ -1,0 +1,57 @@
+{% extends 'app/index.html' %}
+{% load static %}
+
+{% block main-content %}
+
+<div class="container mt-5">
+    <h2 class="text-center text-primary fw-bold mb-4">Contact Us</h2>
+    
+    <div class="row">
+        <!-- Contact Information -->
+        <div class="col-md-6">
+            <div class="card shadow-lg p-4 rounded border-0">
+                <h4 class="text-center mb-4 text-info">Get In Touch</h4>
+                <p><i class="fas fa-map-marker-alt text-danger"></i> <strong>Address:</strong> Baneshwor, Kathmandu, Nepal</p>
+                <p><i class="fas fa-phone-alt text-success"></i> <strong>Contact:</strong> +977-1234567890</p>
+                <p><i class="fas fa-envelope text-warning"></i> <strong>Email:</strong> chitchat@wowcafe.com</p>
+                <p><i class="fas fa-clock text-primary"></i> <strong>Opening Hours:</strong> 8:00 AM - 10:00 PM</p>
+            </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="col-md-6">
+            <div class="card shadow-lg p-4 rounded border-0">
+                <h4 class="text-center mb-4 text-info">Send Us a Message</h4>
+                <form action="#" method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Your Name</label>
+                        <input type="text" class="form-control" name="name" placeholder="Enter your name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Your Email</label>
+                        <input type="email" class="form-control" name="email" placeholder="Enter your email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Your Message</label>
+                        <textarea class="form-control" name="message" rows="4" placeholder="Write your message" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-info w-100 text-white fw-bold">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Google Map Embed -->
+    <div class="mt-5">
+        <h4 class="text-center text-info">Find Us on Google Maps</h4>
+        <div class="text-center">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14130.924591127006!2d85.32951859659799!3d27.694703218571817!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb199a06c2eaf9%3A0xc5670a9173e161de!2sNew%20Baneshwor%2C%20Kathmandu%2044600!5e0!3m2!1sen!2snp!4v1738483586701!5m2!1sen!2snp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <br><br><hr><br>
+
+
+        </div>
+    </div> 
+</div>
+
+{% endblock main-content %}

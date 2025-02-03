@@ -1,0 +1,119 @@
+{% extends 'app/index.html' %}
+
+{% load static %}
+
+
+{% comment %} {% load title %}Home {% endblock title %} {% endcomment %}
+
+{% block banner-slider %}
+
+<div class="card-body">
+
+
+<div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="{% static 'app/images/banner/ice.jpg' %}" class="d-block w-100" alt="banner image" height="650px">
+      </div>
+      <div class="carousel-item">
+        <img src="{% static 'app/images/banner/coffee.jpg' %}" class="d-block w-100" alt="banner image" height="650px">
+      </div>
+      <div class="carousel-item">
+        <img src="{% static 'app/images/banner/cake.jpg' %}" class="d-block w-100" alt="banner image" height="650px">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+
+</div>
+
+{% endblock banner-slider %}
+
+
+
+{% block information %}
+
+
+
+<div class="container">
+    <div class="row bg-info text-center p-4 text-black border-bottom shadow">
+        <h1>Products</h1>
+    
+        <small class="fs-5">
+    
+            Ice cream, cake, and coffee are popular 
+            indulgences that offer a perfect balance of sweetness and refreshment. Ice cream, a cold, creamy treat, is often enjoyed in a variety of flavors like vanilla, chocolate, and fruit-based options, providing
+             a delightful escape on hot days. 
+             Coffee, known for its rich aroma and energizing qualities, comes in various forms such as espresso, cappuccino, and latte, offering both comfort and a caffeine boost.
+    
+        </small>
+    </div>
+    </div>
+
+{% endblock information %}
+
+{% block main-content %}
+
+<div class="container">
+
+    <h1>Welcome Dairy Products site ...</h1>
+
+    <div class="contain">
+        <div class="cont">
+          <a href="{% url 'category' 'CK' %}">
+           
+            <img src="{% static 'app/images/banner/product/cake.jpeg' %}" class="center-block"/>
+
+          </a>
+                <p class="wow">Cake</p>
+            
+
+            
+        </div>
+
+
+        <div class="cont">
+
+          <a href="{% url 'category' 'IC' %}">
+
+           
+            <img src="{% static 'app/images/banner/product/ic.jpeg' %}" class="center-block"/>
+
+          </a>
+                <p class="wow">Ice-Cream</p>
+            
+
+            
+        </div>
+
+
+        <div class="cont">
+           <a href="{% url 'category' 'CF'%}">
+            <img src="{% static 'app/images/banner/product/latte.jpg' %}" height="200px" class="center-block"/>
+           </a>
+           
+                <p class="wow">Coffee</p>
+            
+
+            
+        </div>
+
+    
+    </div>
+
+</div>
+<br><br>
+
+
+
+</div>
+
+{% endblock main-content %}

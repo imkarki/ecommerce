@@ -1,0 +1,52 @@
+{% extends 'app/index.html' %}
+
+{% load static %}
+
+{% block main-content %}
+
+<div class="container">
+    <div class="row flex justify-content-between">
+
+        <div class="img2 col-lg-5 mt-5">
+
+            <img src="{{product.product_image.url}}" class="image col-xs-6
+            col-sm-12 col-lg-12 mt-3 text-sm-center w-75 h-75" alt="">
+
+
+
+
+    </div>
+    <div class="productdetail col-lg-5">
+        <h1 style="font-family: Georgia; font-size:50px;">{{product.title}}</h1>
+        <h4>Rs.{{product.discount_price}}/-</h4>
+        <small class="text-decoration-line-through text-muted
+        fs-5"><del>Rs.{{product.selling_price}}/-</small></del>
+
+       <br><br> <h3 style="color:green;" >product features</h3>
+        <h6 style="color:green;">{{product.description}}</h6>
+
+
+        <br><br><br>
+        <div class="d-grid gap-2">
+            
+
+            <form method="post " action="/add-to-cart">
+
+                {% comment %} yo hidden field bata hami produict.id linxau for views.py ko lagi  {% endcomment %}
+                <input type="hidden" name="prod_id" value={{product.id}}/>
+
+
+        <button class="btn  btn-danger">Add to Cart</button>
+       {% comment %} <button class="btn  btn-dark"><a href="#" class="text-decoration-none text-white">Buy Now</a></button></a> {% endcomment %}
+        </form>
+        </div>
+
+
+
+    </div>
+
+</div>
+
+</div>
+
+{% endblock main-content %}

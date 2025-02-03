@@ -1,0 +1,62 @@
+{% extends 'app/index.html' %}
+
+{% load static %}
+
+{% block main-content %}
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow-lg p-4" style="max-width: 400px; width: 100%;">
+        <h3 class="text-center text-primary mb-4">Login</h3>
+        <hr>
+
+        <form action="{% url 'login_views' %}" method="post" novalidate>
+            {% csrf_token %}
+
+            <!-- Username Field -->
+            <div class="mb-3">
+                <label for="id_username" class="form-label">Username</label>
+                {{ form.username }}
+                <div class="text-danger">
+                    {% if form.username.errors %}
+                        <small>{{ form.username.errors|striptags }}</small>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Password Field -->
+            <div class="mb-3">
+                <label for="id_password" class="form-label">Password</label>
+                {{ form.password }}
+                <div class="text-danger">
+                    {% if form.password.errors %}
+                        <small>{{ form.password.errors|striptags }}</small>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Forgot Password Link -->
+            <div class="mb-3 text-center">
+                <small><a href="{% url 'password_reset' %}">Forgot Password?</a></small>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="mb-3 text-center">
+                <input type="submit" class="btn btn-primary w-100" value="Login">
+            </div>
+
+            <!-- New User Link -->
+            <div class="text-center text-primary fw-bold">
+                <small>New user? <a href="{% url 'registration' %}" class="text-danger">Create an Account</a></small>
+            </div>
+
+            <!-- Non-Field Errors -->
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger mt-3">
+                {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </form>
+    </div>
+</div>
+{% endblock main-content %}

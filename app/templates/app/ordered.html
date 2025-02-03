@@ -1,0 +1,53 @@
+{% extends 'app/index.html' %}
+{% load static %}
+
+{% block main-content %}
+<div class="container my-5">
+    <div class="row">
+        <h3>Welcome <span class="text-capitalize">{{ request.user }}</span></h3>
+        <div class="col-sm-2 border-end">
+            <ul class="list-unstyled">
+                <li class="d-grid">
+                    <a href="{% url 'orders' %}" class="btn btn-primary">Orders</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-sm-9 offset-sm-1">
+            {% for a in ordered_placed %}
+            <div class="row mb-3">
+                <div class="col-sm-2">
+                    <img src="{{ a.product.product_image.url }}" class="img-fluid" height="100" width="100" />
+                    <p>Product: {{ a.product.title }}</p>
+                    <p>Quantity: {{ a.quantity }}</p>
+                    <p>Amount: {{ a.total_cost }}</p>
+                </div>
+
+                <div class="col-sm-3 my-3 ">
+                    <p>Order Status: {{ a.status }}</p>
+
+                    {% if a.status == 'Pending' %}
+                        <p class="text-warning">Your order is pending.</p>
+                    {% else %}
+                        <div class="progress">
+                            {% if a.status == 'Accepted' %}
+                                <div class="progress-bar" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                            {% elif a.status == 'Packed' %}
+                                <div class="progress-bar bg-info" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                            {% elif a.status == 'On the Way' %}
+                                <div class="progress-bar bg-warning" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                            {% elif a.status == 'Delivered' %}
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                            {% elif a.status == 'Cancel' %}
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <hr>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock main-content %}

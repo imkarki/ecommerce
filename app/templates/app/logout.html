@@ -1,0 +1,24 @@
+{% extends 'app/index.html' %}
+{% load static %}
+
+{% block main-content %}
+
+<div class="container">
+    <div class="col-sm-9">
+        <div class="row">
+            <h3 class="text-center"> Are you sure you want to logout </h3>
+
+            <form action="{% url 'login_views' %}" method="post">
+                {% csrf_token %}
+
+                <button type="submit" class="btn btn-primary center-text">Logout</button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock main-content %}

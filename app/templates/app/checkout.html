@@ -1,0 +1,75 @@
+{% extends 'app/index.html' %}
+{% load static %}
+
+{% block main-content %}
+<div class="container py-5">
+    {% if messages %}
+        {% for msg in messages %}
+            <div class="alert alert-danger text-center" role="alert">
+                {{ msg }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="row">
+        <!-- Order Summary Section -->
+        <div class="col-md-6">
+            <h3 class="text-primary fw-bold">Order Summary</h3>
+            <hr>
+
+            {% for items in Carts %}
+            <div class="card shadow-sm border-0 mb-3">
+                <div class="card-body">
+                    <h5 class="fw-bold text-dark">{{ items.product.title }}</h5>
+                    <p class="text-muted"> {{ items.product.description }}</p>
+                    <p class="fw-bold text-success">Price: Rs. {{ items.product.discount_price }}</p>
+                </div>
+            </div>
+            {% endfor %}
+
+            <div class="p-3 bg-light border rounded mt-3">
+                <h5 class="fw-bold">Total Cost: <span class="text-danger">Rs. {{ totalamount }}</span></h5>
+                <small class="text-muted">* Includes shipping cost of Rs. 40</small>
+            </div>
+
+            <p class="text-muted mt-3"></p>
+        </div>
+
+        <!-- Shipping Address Section -->
+        <div class="col-md-5 offset-md-1">
+            <h3 class="text-primary fw-bold">Select Shipping Address</h3>
+            <hr>
+            
+            <form id="myform" method="post" action="/">
+                {% csrf_token %}
+
+                {% for ad in add %}
+                <div class="card shadow-sm border-0 mb-3">
+                    <div class="card-body">
+                        <h5 class="fw-bold text-dark">{{ ad.name }}</h5>
+                        <p class="text-muted">Mobile: {{ ad.mobile }}</p>
+                        <p>{{ ad.locality }}, {{ ad.city }} - {{ ad.zipcode }}</p>
+                    </div>
+                </div>
+
+                <div class="form-check mt-2 mb-4">
+                    <input class="form-check-input" type="radio" name="customerid" id="customeradd{{ forloop.counter }}" value="{{ ad.id }}">
+                    <label class="form-check-label fw-bold" for="customeradd{{ forloop.counter }}">
+                        Address {{ forloop.counter }}
+                    </label>
+                </div>
+                {% endfor %}
+
+                <div class="form-check mb-3">
+                    <label for="totalamount" class="form-label fw-bold">Total Amount</label>
+                    <input type="number" class="form-control border-0 bg-light text-dark fw-bold" name="totalamount" value="{{ totalamount }}" readonly>
+                </div>
+
+                <div class="text-end">
+                    <button type="submit" class="btn btn-warning btn-lg px-5 fw-bold shadow-sm">Proceed to Payment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock main-content %}
