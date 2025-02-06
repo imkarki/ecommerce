@@ -153,9 +153,10 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-STATICFILES_DIRS=[
-    BASE_DIR,"static"
-]
+# can create conflict 
+# STATICFILES_DIRS=[
+#     BASE_DIR,"static"
+# ]
 
 
 # LOGOUT_REDIRECT_URL='/index/'
@@ -165,10 +166,10 @@ EMAIL_BACKEND="django.core.mail.backends.console.EmailBackend"
 
 
 #for the payment
-ESEWA_PRODUCT_CODE="EPAYTEST"  # Replace with actual product code if in production
-ESEWA_SECRET_KEY="8gBm/:&EnhH.1/q"
-ESEWA_SUCCESS_URL="http://yourdomain.com/success/"
-ESEWA_FAILURE_URL="http://yourdomain.com/failure/"
+# ESEWA_PRODUCT_CODE="EPAYTEST"  # Replace with actual product code if in production
+# ESEWA_SECRET_KEY="8gBm/:&EnhH.1/q"
+# ESEWA_SUCCESS_URL="http://yourdomain.com/success/"
+# ESEWA_FAILURE_URL="http://yourdomain.com/failure/"
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # Default session backend
 
