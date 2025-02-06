@@ -68,8 +68,12 @@ urlpatterns = [
     #for the checkout
     path('checkout/',views.checkout.as_view(),name="checkout"),
     
-    #for esewa
-    # path('esewa/',views.esewa,name="esewa"),
+    
+    
+    #correct
+    #path("esewa-request/",views.esewarequest,name='esewarequest'),
+    
+    
 
     
     #ordered placed

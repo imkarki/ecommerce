@@ -31,11 +31,11 @@ class CartsModel(admin.ModelAdmin):
     
 @admin.register(Payment)
 class PaymentModel(admin.ModelAdmin):
-    list_display=['user','amount','e_id','e_status','e_payment','e_status']
+    list_display=['id','user','amount','e_id','e_status','e_payment','e_status']
     
 @admin.register(OrderPlaced)
 class OrderPlacedModel(admin.ModelAdmin):
-    list_display=['user','customers','products','quantity','ordered_date','status','payment']
+    list_display=['id','user','customers','products','quantity','ordered_date','status','payment']
     
     def customers(self,obj):   #used to create the link in database when clicked take you to the detail
         link=reverse("admin:app_customer_change",args=[obj.customer.pk])  #this take much time be careful (admin:appname_functionname_change)

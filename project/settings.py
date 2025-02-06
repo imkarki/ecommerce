@@ -65,6 +65,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Add this after installation of whitenoise
 ]
 
 ROOT_URLCONF = 'project.urls'
@@ -137,6 +139,8 @@ STATIC_URL = 'static/'
 MEDIA_URL='/media/'
 MEDIA_ROOT=BASE_DIR/'media'
 
+# Enable WhiteNoise compression and caching
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",  # Add this line if you have a `static` folder at the root of your project
@@ -161,9 +165,10 @@ EMAIL_BACKEND="django.core.mail.backends.console.EmailBackend"
 
 
 #for the payment
-ESEWA_MERCHANT_ID = "EPAYTEST"
-ESEWA_SECRET_KEY = "8gBm/:&EnhH.1/q"
-DELIVERY_CHARGE = 40 
+ESEWA_PRODUCT_CODE="EPAYTEST"  # Replace with actual product code if in production
+ESEWA_SECRET_KEY="8gBm/:&EnhH.1/q"
+ESEWA_SUCCESS_URL="http://yourdomain.com/success/"
+ESEWA_FAILURE_URL="http://yourdomain.com/failure/"
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # Default session backend
 

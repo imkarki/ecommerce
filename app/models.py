@@ -69,9 +69,9 @@ class Carts(models.Model):
 class Payment(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     amount=models.FloatField()
-    e_id=models.CharField(max_length=100,blank=True,null=True)
-    e_status=models.CharField(max_length=100,blank=True,null=True)
-    e_payment=models.CharField(max_length=100,blank=True,null=True)
+    e_id=models.CharField(max_length=100,blank=True,null=True)  # Transaction ID
+    e_status=models.CharField(max_length=100,blank=True,null=True)  #esewa status
+    e_payment=models.CharField(max_length=100,blank=True,null=True)  #esewa response
     paid=models.BooleanField(default=False)
     
 STATUS_CHOICES=(
@@ -85,6 +85,7 @@ STATUS_CHOICES=(
  
     
 class OrderPlaced(models.Model):
+   
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     customer=models.ForeignKey(Customer,on_delete=models.CASCADE)
     product=models.ForeignKey(Products,on_delete=models.CASCADE)
@@ -92,6 +93,7 @@ class OrderPlaced(models.Model):
     ordered_date=models.DateTimeField(auto_now_add=True)
     status=models.CharField(max_length=40,choices=STATUS_CHOICES,default="Pending")
     payment=models.ForeignKey(Payment,on_delete=models.CASCADE,default="")
+    
     
     @property
     
