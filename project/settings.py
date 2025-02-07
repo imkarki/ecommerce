@@ -175,7 +175,7 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # Default session backen
 
 
 #for login 
-LOGIN_URL = 'login_views'  # Redirects to login if user is not authenticated
+# LOGIN_URL = 'login_views'  # Redirects to login if user is not authenticated
 
 # 8gBm/:&EnhH.1/q(
     
