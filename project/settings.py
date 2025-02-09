@@ -31,7 +31,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-1lm%f+z__ws+=vwzva!x4)iif!pw_=8m$x&%=%2wlks@pe(or7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['ecommerce-rbcl.onrender.com','localhost','127.0.0.1']
 
@@ -137,7 +137,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 MEDIA_URL='/media/'
-MEDIA_ROOT=BASE_DIR/'media'
+MEDIA_ROOT=BASE_DIR / "media"
 
 # Enable WhiteNoise compression and caching
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
