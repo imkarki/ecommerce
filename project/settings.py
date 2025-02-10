@@ -149,10 +149,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Collect static files here
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 STATICFILES_DIRS = [
-    BASE_DIR / "static",  # Add this line if you have a `static` folder at the root of your project
+    BASE_DIR / 'app/static',  # Add this line if you have a `static` folder at the root of your project
 ]
 
-
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # This is where static files will be collected in production
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
