@@ -31,7 +31,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-1lm%f+z__ws+=vwzva!x4)iif!pw_=8m$x&%=%2wlks@pe(or7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['ecommerce-rbcl.onrender.com','localhost','127.0.0.1']
 
@@ -175,7 +175,13 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # Default session backen
 
 
 #for login 
-# LOGIN_URL = 'login_views'  # Redirects to login if user is not authenticated
+#LOGIN_URL='login_views'  # Redirects to login if user is not authenticated
+
+
+LOGIN_URL='/loginview/'
+
+#LOGIN_REDIRECT_URL = '/'  # Redirect to home instead of login
+
 
 # 8gBm/:&EnhH.1/q(
     
@@ -198,3 +204,8 @@ DEBUG = env.bool("DEBUG", default=False)
 EMAIL_HOST_USER = env("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+
+#EMAIL_HOST_USER = 'ambukarki01@gmail.com'  # Your email
+#EMAIL_HOST_PASSWORD = 'nvvfpfxxxqzhbjkq'  # Use an App Password, not your real password

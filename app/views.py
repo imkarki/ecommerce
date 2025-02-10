@@ -216,7 +216,7 @@ def register_view(request):
 #     form=UserCreation_form()
 #     return render(request,'app/customerregistration.html',locals())
 
-@login_required
+#@login_required
 def login_view(request):
     if request.method=='POST':
         form=LoginForm(request.POST)

@@ -101,9 +101,9 @@ urlpatterns = [
     path('password-reset-done/',auth_view.PasswordResetDoneView.as_view(template_name='app/passwordreset_done.html'),name='password_reset_done'),
     
     
-    path('password-reset-confirm/<uidb64>/<token>',auth_view.PasswordResetConfirmView.as_view(template_name='app/password_confirm.html',form_class=MyPasswordConfirm),name='password_reset_confirm'),
+    path('password-reset-confirm/<uidb64>/<token>/',auth_view.PasswordResetConfirmView.as_view(template_name='app/password_confirm.html',form_class=MyPasswordConfirm),name='password_reset_confirm'),
     
-    path('passwordreset-complete/',auth_view.PasswordResetCompleteView.as_view(template_name='app/passwordcomplete.html'),name='password_reset_complete'),
+    path('password-reset-complete/',auth_view.PasswordResetCompleteView.as_view(template_name='app/passwordcomplete.html'),name='password_reset_complete'),
     
     
     
