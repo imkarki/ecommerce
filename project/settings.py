@@ -135,12 +135,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 MEDIA_URL='/media/'
 MEDIA_ROOT=BASE_DIR / "media"
 
 #to show images in render 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Store uploaded files in 'media' directory
+
+# to show in render static files 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Collect static files here in production
 
 # Enable WhiteNoise compression and caching
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -210,5 +213,5 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
 
-#EMAIL_HOST_USER = 'ambukarki01@gmail.com'  # Your email
-#EMAIL_HOST_PASSWORD = 'nvvfpfxxxqzhbjkq'  # Use an App Password, not your real password
+EMAIL_HOST_USER = 'ambukarki01@gmail.com'  # Your email
+EMAIL_HOST_PASSWORD = 'nvvfpfxxxqzhbjkq'  # Use an App Password, not your real password

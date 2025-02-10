@@ -7,7 +7,7 @@ pip install -r requirements.txt
 python manage.py migrate
 
 #echo "Collecting static files..."
-python manage.py collectstatic --no-input
+python manage.py collectstatic --noinput
 
 #echo "Starting the Django application..."
 #gunicorn your_project.wsgi:application
