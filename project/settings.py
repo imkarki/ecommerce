@@ -139,6 +139,9 @@ STATIC_URL = 'static/'
 MEDIA_URL='/media/'
 MEDIA_ROOT=BASE_DIR / "media"
 
+#to show images in render 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Store uploaded files in 'media' directory
+
 # Enable WhiteNoise compression and caching
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
