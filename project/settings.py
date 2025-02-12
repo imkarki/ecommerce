@@ -220,17 +220,27 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
 
-EMAIL_HOST_USER = 'ambukarki01@gmail.com'  # Your email
-EMAIL_HOST_PASSWORD = 'nvvfpfxxxqzhbjkq'  # Use an App Password, not your real password
+#EMAIL_HOST_USER = 'ambukarki01@gmail.com'  # Your email
+#EMAIL_HOST_PASSWORD = 'nvvfpfxxxqzhbjkq'  # Use an App Password, not your real password
 
 
-CLOUDINARY_URL = "cloudinary://962641844214638:6THBW1UETbstw3J9pKIg_4RUfkE@dtvfgiohr"
+# CLOUDINARY_URL="cloudinary://962641844214638:6THBW1UETbstw3J9pKIg_4RUfkE@dtvfgiohr"
 
-# Cloudinary settings
-cloudinary.config( 
-  cloud_name='dtvfgiohr', 
-  api_key='962641844214638', 
-  api_secret='6THBW1UETbstw3J9pKIg_4RUfkE',
-)
+# # Cloudinary settings
+# cloudinary.config( 
+#   cloud_name='dtvfgiohr', 
+#   api_key='962641844214638', 
+#   api_secret='6THBW1UETbstw3J9pKIg_4RUfkE',
+# )
+
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# Cloudinary Configuration
+CLOUDINARY_URL = env("CLOUDINARY_URL")
+
+cloudinary.config(
+    cloud_name=env("CLOUDINARY_URL").split("@")[1],  # Extract cloud name
+    api_key=env("CLOUDINARY_URL").split("//")[1].split(":")[0],  # Extract API key
+    api_secret=env("CLOUDINARY_URL").split(":")[2].split("@")[0],  # Extract API secret
+)
