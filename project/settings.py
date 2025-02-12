@@ -237,7 +237,9 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Cloudinary Configuration
-CLOUDINARY_URL = os.getenv("CLOUDINARY_URL")
+# CLOUDINARY_URL = os.getenv("CLOUDINARY_URL")
+
+CLOUDINARY_URL = env("CLOUDINARY_URL", default="")
 
 if CLOUDINARY_URL:
     cloudinary.config(
