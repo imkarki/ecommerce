@@ -135,6 +135,7 @@ def about(request):
 class CategoryView(View):
     def get(self, request, val):
         product = Products.objects.filter(category=val)
+       
         title = Products.objects.filter(category=val).values('title').annotate(total=Count('title'))
         
         # Calculate cart count only if the user is authenticated

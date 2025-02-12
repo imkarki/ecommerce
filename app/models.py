@@ -4,6 +4,8 @@ from django.db import models
 
 from django.contrib.auth.models import User
 
+from cloudinary.models import CloudinaryField
+
 # Create your models here.
 STATE_CHOICES=(
 ('kathmandu','kathmandu'),
@@ -30,7 +32,10 @@ class Products(models.Model):
     # composition=models.TextField(default='')
     # prodapp=models.TextField(default='')
     category=models.CharField(choices=CATEGORY_CHOICES,max_length=2)
-    product_image=models.ImageField(upload_to='things')
+    #product_image=models.ImageField(upload_to='things/')
+    
+    product_image = CloudinaryField('image')  # Replaces ImageField
+
     
     def __str__(self):
         return self.title

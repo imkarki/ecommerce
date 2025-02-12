@@ -14,7 +14,10 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import environ
 import os
 
-
+#for cloudinary (to upload the image (media) from the  
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 
 
@@ -31,7 +34,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-1lm%f+z__ws+=vwzva!x4)iif!pw_=8m$x&%=%2wlks@pe(or7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+#DEBUG = False
+
+DEBUG=True
 
 ALLOWED_HOSTS = ['ecommerce-rbcl.onrender.com','localhost','127.0.0.1']
 
@@ -46,6 +51,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 #written by myself for login,logout and registration
@@ -137,7 +144,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 MEDIA_URL='/media/'
-MEDIA_ROOT=BASE_DIR / "media"
+#MEDIA_ROOT=BASE_DIR / 'media'   # Directory to store user-uploaded media files
 
 #to show images in render 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Store uploaded files in 'media' directory
@@ -215,3 +222,15 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 EMAIL_HOST_USER = 'ambukarki01@gmail.com'  # Your email
 EMAIL_HOST_PASSWORD = 'nvvfpfxxxqzhbjkq'  # Use an App Password, not your real password
+
+
+CLOUDINARY_URL = "cloudinary://962641844214638:6THBW1UETbstw3J9pKIg_4RUfkE@dtvfgiohr"
+
+# Cloudinary settings
+cloudinary.config( 
+  cloud_name='dtvfgiohr', 
+  api_key='962641844214638', 
+  api_secret='6THBW1UETbstw3J9pKIg_4RUfkE',
+)
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
