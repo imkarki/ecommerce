@@ -237,10 +237,11 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Cloudinary Configuration
-CLOUDINARY_URL = env("CLOUDINARY_URL")
+CLOUDINARY_URL = os.getenv("CLOUDINARY_URL")
 
-cloudinary.config(
-    cloud_name=env("CLOUDINARY_URL").split("@")[1],  # Extract cloud name
-    api_key=env("CLOUDINARY_URL").split("//")[1].split(":")[0],  # Extract API key
-    api_secret=env("CLOUDINARY_URL").split(":")[2].split("@")[0],  # Extract API secret
-)
+if CLOUDINARY_URL:
+    cloudinary.config(
+        cloud_name=CLOUDINARY_URL.split("@")[1],
+        api_key=CLOUDINARY_URL.split("//")[1].split(":")[0],
+        api_secret=CLOUDINARY_URL.split(":")[2].split("@")[0],
+    )
