@@ -36,7 +36,7 @@ SECRET_KEY = 'django-insecure-1lm%f+z__ws+=vwzva!x4)iif!pw_=8m$x&%=%2wlks@pe(or7
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = False
 
-DEBUG=True
+# DEBUG=True
 
 ALLOWED_HOSTS = ['ecommerce-rbcl.onrender.com','localhost','127.0.0.1']
 
@@ -211,7 +211,7 @@ EMAIL_USE_TLS = True
 env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))  # Load .env file
 
-DEBUG = env.bool("DEBUG", default=False)
+DEBUG = env.bool("DEBUG", default=True)   #pahile False thiyo
 
 # Email Configuration
 EMAIL_HOST_USER = env("EMAIL_HOST_USER")
