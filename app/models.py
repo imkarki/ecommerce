@@ -74,7 +74,7 @@ class Carts(models.Model):
 class Payment(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     amount=models.FloatField()
-    e_id=models.CharField(max_length=100,blank=True,null=True)  # Transaction ID
+    e_id=models.CharField(max_length=100,blank=True,null=True)  # Transaction ID # Transaction UUID from eSewa
     e_status=models.CharField(max_length=100,blank=True,null=True)  #esewa status
     e_payment=models.CharField(max_length=100,blank=True,null=True)  #esewa response
     paid=models.BooleanField(default=False)

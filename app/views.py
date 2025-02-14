@@ -84,10 +84,16 @@ from django.conf import settings
 
 #for payment integration
 from esewa import EsewaPayment,generate_signature
-import uuid 
+
 from django.http import JsonResponse
 
 import requests
+
+import uuid
+import hmac
+import hashlib
+import base64
+from esewa.signature import generate_signature  # Import the function
 
 
 @login_required
@@ -423,9 +429,9 @@ class checkout(View):
         
         #e_id=uuid.uuid4()  #Generate a unique transaction ID
         
-        # return render(request,'app/checkout.html',{"add":add,"carts":carts,"totamount":totamount,"totalamount":totalamount,"car_count":car_count,"e_id":e_id})
+        return render(request,'app/checkout.html',{"add":add,"carts":carts,"totamount":totamount,"totalamount":totalamount,"car_count":car_count})
         
-        return render(request,'app/home.html',{"add":add,"carts":carts,"totamount":totamount,"totalamount":totalamount,"car_count":car_count})
+        #return render(request,'app/home.html',{"add":add,"carts":carts,"totamount":totamount,"totalamount":totalamount,"car_count":car_count})
     
     # def post(self,request):
     #     user=request.user
@@ -503,11 +509,81 @@ def contact(request):
 
    
         #correct
+
+SECRET_KEY = "8gBm/:&EnhH.1/q"
+CALLBACK_URL = "https://developer.esewa.com.np/success"
+PRODUCT_CODE = "EPAYTEST"     
+   #correct   
+     
+def esewarequest(request):
+    if request.method=="POST":
+       
+        user=request.user
+        amount=request.POST.get("amount")
+        transaction_uuid=str(uuid.uuid4()) #unique transaction ID
         
-   #correct     
-# def esewarequest(request):
-#     return render(request,"app/esewarequest.html")       
+        #Create a new payment record
+        payment=Payment.objects.create(
+            user=user,
+            amount=amount,
+            e_id=transaction_uuid,
+            e_status="pending"
+        )
         
+        # Prepare the data string for signature
+        data_string = f"{amount},{transaction_uuid},{PRODUCT_CODE},{CALLBACK_URL}"
+
+        # Generate the signature using eSewa's function
+        signature=generate_signature(data_string, SECRET_KEY)
+
+        
+        context={
+            "amount":amount,
+            "total_cost":amount,   #modify if include tax/service charge
+            "transaction_id":transaction_uuid, #correct variable
+            # "SECRET_KEY":SECRET_KEY,
+            "product_code":PRODUCT_CODE,
+            "callback_url":CALLBACK_URL,
+            "signature":signature
+            
+        }
+        return render(request,"app/esewarequest.html",context) 
+    return redirect("checkout/")  #redirect to checkout if accessed directly   
+
+
+def esewa_success(request):
+    ref_id = request.GET.get("refId")  # Reference ID from eSewa
+    transaction_uuid = request.GET.get("transaction_uuid")
+    amount = request.GET.get("amount")
+
+    # Verify with eSewa
+    verification_url = "https://uat.esewa.com.np/epay/transrec"
+    verification_data = {
+        "amt": amount,
+        "scd": "EPAYTEST",
+        "rid": ref_id,
+        "pid": transaction_uuid,
+    }
+
+    response = requests.post(verification_url, data=verification_data)
+    
+    if "Success" in response.text:
+        payment = Payment.objects.get(transaction_id=transaction_uuid)
+        payment.payment_status = "Completed"
+        payment.paid = True
+        payment.response_data = response.text
+        payment.save()
+
+        return render(request, "app/payment_success.html", {"transaction_id": transaction_uuid})
+    else:
+        return render(request, "app/payment_failed.html")   
+    
+def esewa_failure(request):
+    return render(request, "app/payment_failed.html")
+
+        
+
+
 
 # def esewa_pay(request):
 #     if request.method == "POST":

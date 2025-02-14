@@ -40,8 +40,9 @@
             <h3 class="text-primary fw-bold">Select Shipping Address</h3>
             <hr>
             
-            {% comment %} <form id="myform" method="post" action="{% url 'esewarequest' %}"> {% endcomment %}
-                <form id="myform" method="post" action="{% url 'checkout' %}">
+            {% comment %} {% url 'esewarequest' %} {% endcomment %}
+            <form id="myform" method="post" action="{% url 'esewarequest' %}">
+                {% comment %} <form id="myform" method="post" action="{% url 'checkout' %}"> {% endcomment %}
                 {% csrf_token %}
 
                 {% for ad in add %}
@@ -63,7 +64,7 @@
 
                 <div class="form-check mb-3">
                     <label for="totalamount" class="form-label fw-bold">Total Amount</label>
-                    <input type="number" class="form-control border-0 bg-light text-dark fw-bold" name="totalamount" value="{{ totalamount }}" readonly>
+                    <input type="number" class="form-control border-0 bg-light text-dark fw-bold" name="amount" value="{{ totalamount }}" readonly>
                 </div>
 
                 <div class="text-end">
