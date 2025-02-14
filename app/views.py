@@ -534,7 +534,7 @@ def esewarequest(request):
         data_string = f"{amount},{transaction_uuid},{PRODUCT_CODE},{CALLBACK_URL}"
 
         # Generate the signature using eSewa's function
-        signature=generate_signature(data_string, SECRET_KEY)
+        signature=generate_signature(amount,transaction_uuid)   #Please read the docs
 
         
         context={
