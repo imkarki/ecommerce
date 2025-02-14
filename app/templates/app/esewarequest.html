@@ -9,18 +9,9 @@
  {% endcomment %}
  {% comment %} <label>{{messages}}</label>
  <label>{{signature}}</label> {% endcomment %}<br><br>
-  <input type="text" id="amount" name="amount" value="{{amount}}" required><br><br>
-  <input type="text" id="tax_amount" name="tax_amount" value ="0" required><br><br>
-  <input type="text" id="total_amount" name="total_amount" value="{{total_cost}}" required><br><br>
-  <input type="text" id="transaction_uuid" name="transaction_uuid" value="{{transaction_id}}" required><br><br>
-  <input type="text" id="product_code" name="product_code" value ="EPAYTEST" required><br><br>
-  <input type="text" id="product_service_charge" name="product_service_charge" value="0" required> <br><br>
-  <input type="text" id="product_delivery_charge" name="product_delivery_charge" value="0" required> <br><br>
-  <input type="text" id="success_url" name="success_url" value="{{callback_url}}" required><br><br>
-  <input type="text" id="failure_url" name="failure_url" value="https://google.com" required> <br><br>
-  <input type="text" id="signed_field_names" name="signed_field_names" value="total_amount,transaction_uuid,product_code" required> <br><br>
-  <input type="text" id="signature" name="signature" value="{{signature}}" required> <br><br>
-
+  <label for="amount">Amount</label>
+  <input type="text" id="amount" name="amount" readonly value="{{amount}}" required>
+  {{form|safe}}
   <input value="Submit" type="submit"><br><hr><br><br>
   </form>
  

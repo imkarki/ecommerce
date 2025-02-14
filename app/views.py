@@ -504,76 +504,45 @@ def contact(request):
         
     return render(request,'app/contact.html')
         
-        
 
-
-   
-        #correct
-
-SECRET_KEY = "8gBm/:&EnhH.1/q"
-CALLBACK_URL = "https://developer.esewa.com.np/success"
-PRODUCT_CODE = "EPAYTEST"     
-   #correct   
-     
 def esewarequest(request):
     if request.method=="POST":
-       
         user=request.user
         amount=request.POST.get("amount")
-        transaction_uuid=str(uuid.uuid4()) #unique transaction ID
+        transaction_uuid = str(uuid.uuid4())[:8]  # unique transaction ID with smaller length
         
         #Create a new payment record
-        payment=Payment.objects.create(
+        payment = Payment.objects.create(
             user=user,
             amount=amount,
             e_id=transaction_uuid,
-            e_status="pending"
+            e_status="Pending"
         )
-        
-        # Prepare the data string for signature
-        data_string = f"{amount},{transaction_uuid},{PRODUCT_CODE},{CALLBACK_URL}"
-
-        # Generate the signature using eSewa's function
-        signature=generate_signature(amount,transaction_uuid)   #Please read the docs
-
-        
+        epayment = EsewaPayment(
+            success_url=f'http://localhost:8000/esewa-success/{payment.id}',
+            failure_url=f'http://localhost:8000/esewa-failure/{payment.id}'
+        )
+        epayment.create_signature(amount, transaction_uuid)
+        payment.save()
         context={
-            "amount":amount,
-            "total_cost":amount,   #modify if include tax/service charge
-            "transaction_id":transaction_uuid, #correct variable
-            # "SECRET_KEY":SECRET_KEY,
-            "product_code":PRODUCT_CODE,
-            "callback_url":CALLBACK_URL,
-            "signature":signature
+            'amount':amount,
+            'form':epayment.generate_form()
             
         }
         return render(request,"app/esewarequest.html",context) 
     return redirect("checkout/")  #redirect to checkout if accessed directly   
 
 
-def esewa_success(request):
-    ref_id = request.GET.get("refId")  # Reference ID from eSewa
-    transaction_uuid = request.GET.get("transaction_uuid")
-    amount = request.GET.get("amount")
-
-    # Verify with eSewa
-    verification_url = "https://uat.esewa.com.np/epay/transrec"
-    verification_data = {
-        "amt": amount,
-        "scd": "EPAYTEST",
-        "rid": ref_id,
-        "pid": transaction_uuid,
-    }
-
-    response = requests.post(verification_url, data=verification_data)
-    
-    if "Success" in response.text:
-        payment = Payment.objects.get(transaction_id=transaction_uuid)
-        payment.payment_status = "Completed"
-        payment.paid = True
-        payment.response_data = response.text
+def esewa_success(request,id):
+    payment = Payment.objects.get(id=id)
+    transaction_uuid = payment.e_id
+    amount = payment.amount
+    epayment = EsewaPayment()
+    epayment.create_signature(amount, transaction_uuid)
+    if epayment.is_completed(dev=True):
+        e_status = "Accepted"
+        payment.e_status = e_status
         payment.save()
-
         return render(request, "app/payment_success.html", {"transaction_id": transaction_uuid})
     else:
         return render(request, "app/payment_failed.html")   
