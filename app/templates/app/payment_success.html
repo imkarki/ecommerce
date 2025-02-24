@@ -1,0 +1,15 @@
+{% extends 'app/index.html' %}
+
+{% load static %}
+
+{% block main-content %}
+<div class="container text-center mt-5">
+    <div class="card shadow-lg p-4 rounded-lg" style="max-width: 500px; margin: auto;">
+        {% comment %} <img src="{% static 'images/success.png' %}" alt="Success" class="img-fluid mb-3" style="width: 80px;"> {% endcomment %}
+        <h2 class="text-success">Payment Successful</h2>
+        <p class="text-muted">Thank you for your payment. Your transaction has been completed successfully.</p>
+        <p><strong>Transaction ID:</strong> <span class="text-primary">{{ transaction_id }}</span></p>
+        <a href="{% url 'index' %}" class="btn btn-primary mt-3">Return to Home</a>
+    </div>
+</div>
+{% endblock main-content %}

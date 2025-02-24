@@ -5,21 +5,11 @@
 
   <form action="https://rc-epay.esewa.com.np/api/epay/main/v2/form" method="POST" class="container text-center">
     {% csrf_token %}
-    {% comment %} <input type="text" id="access_key" name="access_key" value="your_access_key" required>
- {% endcomment %}
- {% comment %} <label>{{messages}}</label>
- <label>{{signature}}</label> {% endcomment %}<br><br>
-  <input type="text" id="amount" name="amount" value="{{amount}}" required><br><br>
-  <input type="text" id="tax_amount" name="tax_amount" value ="0" required><br><br>
-  <input type="text" id="total_amount" name="total_amount" value="{{total_cost}}" required><br><br>
-  <input type="text" id="transaction_uuid" name="transaction_uuid" value="{{transaction_id}}" required><br><br>
-  <input type="text" id="product_code" name="product_code" value ="EPAYTEST" required><br><br>
-  <input type="text" id="product_service_charge" name="product_service_charge" value="0" required> <br><br>
-  <input type="text" id="product_delivery_charge" name="product_delivery_charge" value="0" required> <br><br>
-  <input type="text" id="success_url" name="success_url" value="{{callback_url}}" required><br><br>
-  <input type="text" id="failure_url" name="failure_url" value="https://google.com" required> <br><br>
-  <input type="text" id="signed_field_names" name="signed_field_names" value="total_amount,transaction_uuid,product_code" required> <br><br>
-  <input type="text" id="signature" name="signature" value="{{signature}}" required> <br><br>
+     <label for="amount">Amount </label>
+
+  <input type="text" id="amount" name="amount" readonly value="{{amount}}" required>
+
+  {{form|safe}}
 
   <input value="Submit" type="submit"><br><hr><br><br>
   </form>
@@ -28,128 +18,5 @@
   
 
 {% endblock payment %}
-<div class="form-container">
-  <h2>eSewa Payment</h2>
-  <form action="https://rc-epay.esewa.com.np/api/epay/main/v2/form" method="POST">
-    <div class="form-group">
-      <label for="amount">Amount</label>
-      <input type="text" id="amount" name="amount" value="{{amount}}" required>
-    </div>
-    <div class="form-group">
-      <label for="tax_amount">Tax Amount</label>
-      <input type="text" id="tax_amount" name="tax_amount" value="0" required>
-    </div>
-    <div class="form-group">
-      <label for="total_amount">Total Amount</label>
-      <input type="text" id="total_amount" name="total_amount" value="{{total_cost}}" required>
-    </div>
 
-    {% comment %} product_code =>Merchant code provided by eSewa {% endcomment %}
-
-    <div class="form-group">
-      <label for="transaction_uuid">Transaction UUID</label>
-      <input type="text" id="transaction_uuid" name="transaction_uuid" value="{{transaction_id}}" required>
-    </div>
-
-    {% comment %} transaction_uuid=>A unique ID of product, should be unique on every request.Supports alphanumeric and hyphen(-) only {% endcomment %}
-
-    <div class="form-group">
-      <label for="product_code">Product Code</label>
-      <input type="hidden" id="product_code" name="product_code" value="EPAYTEST" required>
-    </div>
-     <div class="form-group">
-      <label for="product_service_charge">Service Charge</label>
-      <input type="text" id="product_service_charge" name="product_service_charge" value="0" required>
-    </div>
-    <div class="form-group">
-      <label for="product_delivery_charge">Delivery Charge</label>
-      <input type="text" id="product_delivery_charge" name="product_delivery_charge" value="0" required>
-    </div> 
-    {% comment %} <div class="form-group">
-      <label for="success_url">Success URL</label>
-      <input type="hidden" id="success_url" name="success_url" value="https://esewa.com.np" required>
-    </div>
-    <div class="form-group">
-      <label for="failure_url">Failure URL</label>
-      <input type="hidden" id="failure_url" name="failure_url" value="https://google.com" required>
-    </div> {% endcomment %}
-    <div class="form-group">
-      <label for="signed_field_names">Signed Field Names</label>
-      <input type="text" id="signed_field_names" name="signed_field_names" value="total_amount,transaction_uuid,product_code" required>
-    </div>
-    <div class="form-group">
-      {% comment %} value="i94zsd3oXF6ZsSr/kGqT4sSzYQzjj1W/waxjWyRwaME=" {% endcomment %}
-      <label for="signature">Signature</label>
-      <input type="text" id="signature" name="signature" value="i94zsd3oXF6ZsSr/kGqT4sSzYQzjj1W/waxjWyRwaME=" required>
-    </div>
-    <button type="submit" class="submit-btn">Proceed to Payment</button>
-  </form>
-  <p class="note">You will be redirected to the eSewa payment gateway.</p>
-</div>
-
-<style>
-  .form-container {
-    background: #ffffff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
-    padding: 20px 30px;
-    width: 100%;
-    max-width: 500px;
-    margin: 20px auto;
-  }
-
-  .form-container h2 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-  }
-
-  .form-group {
-    margin-bottom: 15px;
-  }
-
-  .form-group label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 5px;
-    color: #555;
-  }
-
-  .form-group input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 16px;
-  }
-
-  .form-group input:focus {
-    border-color: #0275d8;
-    outline: none;
-  }
-
-  .submit-btn {
-    width: 100%;
-    background: #0275d8;
-    color: #fff;
-    font-weight: bold;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-
-  .submit-btn:hover {
-    background: #025aa5;
-  }
-
-  .note {
-    text-align: center;
-    font-size: 14px;
-    color: #777;
-    margin-top: 10px;
-  }
-</style>
 

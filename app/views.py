@@ -510,9 +510,9 @@ def contact(request):
    
         #correct
 
-SECRET_KEY = "8gBm/:&EnhH.1/q"
-CALLBACK_URL = "https://developer.esewa.com.np/success"
-PRODUCT_CODE = "EPAYTEST"     
+# SECRET_KEY = "8gBm/:&EnhH.1/q"
+# CALLBACK_URL = "https://developer.esewa.com.np/success"
+# PRODUCT_CODE = "EPAYTEST"     
    #correct   
      
 def esewarequest(request):
@@ -520,63 +520,52 @@ def esewarequest(request):
        
         user=request.user
         amount=request.POST.get("amount")
-        transaction_uuid=str(uuid.uuid4()) #unique transaction ID
+        #transaction_uuid=str(uuid.uuid4()) #unique transaction ID
+        
+        transaction_uuid=str(uuid.uuid4())[:8] #unique transaction ID with smaller length
         
         #Create a new payment record
-        payment=Payment.objects.create(
+        payment = Payment.objects.create(
             user=user,
             amount=amount,
             e_id=transaction_uuid,
-            e_status="pending"
+            e_status="Pending"
         )
         
-        # Prepare the data string for signature
-        data_string = f"{amount},{transaction_uuid},{PRODUCT_CODE},{CALLBACK_URL}"
-
-        # Generate the signature using eSewa's function
-        signature=generate_signature(data_string, SECRET_KEY)
+        
+        
+    
+        epayment = EsewaPayment(
+            success_url=f'http://localhost:8000/esewa-success/{payment.id}',
+            failure_url=f'http://localhost:8000/esewa-failure/{payment.id}'
+        )
+        epayment.create_signature(amount, transaction_uuid)
+        payment.save()
 
         
         context={
-            "amount":amount,
-            "total_cost":amount,   #modify if include tax/service charge
-            "transaction_id":transaction_uuid, #correct variable
-            # "SECRET_KEY":SECRET_KEY,
-            "product_code":PRODUCT_CODE,
-            "callback_url":CALLBACK_URL,
-            "signature":signature
             
+            'amount':amount,
+            'form':epayment.generate_form()
         }
         return render(request,"app/esewarequest.html",context) 
     return redirect("checkout/")  #redirect to checkout if accessed directly   
 
-
-def esewa_success(request):
-    ref_id = request.GET.get("refId")  # Reference ID from eSewa
-    transaction_uuid = request.GET.get("transaction_uuid")
-    amount = request.GET.get("amount")
-
-    # Verify with eSewa
-    verification_url = "https://uat.esewa.com.np/epay/transrec"
-    verification_data = {
-        "amt": amount,
-        "scd": "EPAYTEST",
-        "rid": ref_id,
-        "pid": transaction_uuid,
-    }
-
-    response = requests.post(verification_url, data=verification_data)
-    
-    if "Success" in response.text:
-        payment = Payment.objects.get(transaction_id=transaction_uuid)
-        payment.payment_status = "Completed"
-        payment.paid = True
-        payment.response_data = response.text
+def esewa_success(request,id):
+    payment = Payment.objects.get(id=id)
+    transaction_uuid = payment.e_id
+    amount = payment.amount
+    epayment = EsewaPayment()
+    epayment.create_signature(amount, transaction_uuid)
+    if epayment.is_completed(dev=True):
+        e_status = "Accepted"
+        payment.e_status = e_status
         payment.save()
-
+        
         return render(request, "app/payment_success.html", {"transaction_id": transaction_uuid})
     else:
         return render(request, "app/payment_failed.html")   
+
     
 def esewa_failure(request):
     return render(request, "app/payment_failed.html")
@@ -585,113 +574,7 @@ def esewa_failure(request):
 
 
 
-# def esewa_pay(request):
-#     if request.method == "POST":
-#         user = request.user
-#         print(user)
-#         total_amount = request.POST.get("total_amount")  # Fixed field name
-#         if not total_amount:
-#             return render(request, 'app/esewa.html', {"error": "Total amount is required"})
-
-#         transaction_uuid = str(uuid.uuid4())  # Convert UUID to string
-
-#         # Generate esewa signature
-#         signature = generate_signature(
-#             total_amount=total_amount,
-#             transaction_uuid=transaction_uuid,
-#             key=settings.ESEWA_SECRET_KEY,  # Use settings
-#             product_code="EPAYTEST"
-#         )
-#         ESEWA_SECRET_KEY ="8gBm/:&EnhH.1/q"
-#         product_code = "EPAYTEST"
-
-        
-#         signature = generate_signature(total_amount, transaction_uuid, key=ESEWA_SECRET_KEY, product_code=product_code)
-
-
-
-#         # Create EsewaPayment instance
-#         payment = EsewaPayment(
-#             product_code="EPAYTEST",
-#             success_url="http://yourdomain.com/success/",
-#             failure_url="http://yourdomain.com/failure/",
-#             secret_key=settings.ESEWA_SECRET_KEY,
-#         )
-
-#         # Generate payload for Esewa
-#         payload = payment.generate_payload(
-#             amount=total_amount,
-#             transaction_uuid=transaction_uuid,
-#             tax_amount=10,
-#             product_service_charge=0,
-#             product_delivery_charge=0,
-#             total_amount=total_amount,
-#         )
-
-#         return redirect(f"https://esewa.com.np/epay/main?{payload}")
-
-#     return render(request, 'app/esewa.html')
-
-
 
 
     
-
-# def esewa(request):
-#     user = request.user
-#     carts = Carts.objects.filter(user=user)
-
-#     # Calculate the total amount from the cart
-#     delivery_charge = settings.DELIVERY_CHARGE
-#     total_amount = sum([cart.quantity * cart.product.discount_price for cart in carts]) + delivery_charge
-
-    
-    
-
-    
-   
-    # Passing required data to the template
-    # context = {
-    #     'amount': total_amount,
-    #     'transaction_uuid': transaction_uuid,
-    #     'total_cost': total_amount,
-    #     'e_id': transaction_uuid,
-    #     'signature': signature,
-    # }
-
-    # return render(request, 'app/esewa.html')
-
-
-
-
-# def esewa(request):
-#     user=request.user
-#     carts=Carts.objects.filter(user=user)
-    
-#     #calculate the total amount from cart
-#     total_amount=sum([cart.quantity * cart.product.discount_price for cart in carts])+40 #add delivery charge
-    
-#     #generate unique transaction uuid
-#     transaction_uuid=str(uuid.uuid4())  #unique identifier for the transaction
-    
-#     #generate signature for esewa 
-#     #prepare fields for signature
-#     hmac_sha256 = hmac.new(secret, message, hashlib.sha256)
-#     digest = hmac_sha256.digest()
-#     signature = base64.b64encode(digest).decode('utf-8') 
-    
-#     # params = f"amt={total_amount}&scd={settings.ESEWA_MERCHANT_ID}&pid={transaction_uuid}&su={request.build_absolute_uri('/payment/success/')}&fu={request.build_absolute_uri('/payment/fail/')}"
-#     # signature = hashlib.sha256(params.encode('utf-8')).hexdigest()
-    
-#     #passing required data to template
-#     context={
-#         'amount':total_amount,
-#         'transaction_uuid':transaction_uuid,
-#         'total_cost':total_amount,
-#         'e_id':transaction_uuid,
-#         'signature':signature,
-#     }
-
-    
-#     return render(request,'app/esewa.html',context)
 

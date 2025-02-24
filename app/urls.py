@@ -74,8 +74,11 @@ urlpatterns = [
     path("esewa-request/",views.esewarequest,name='esewarequest'),
     
     #path("esewa-request/", esewa_request, name="esewa_request"),
-    path("esewa-success/", views.esewa_success, name="esewa_success"),
-    path("esewa-failure/", views.esewa_failure, name="esewa_failure"),
+    #path("esewa-success/", views.esewa_success, name="esewa_success"),
+    #path("esewa-failure/", views.esewa_failure, name="esewa_failure"),
+    
+    path("esewa-success/<int:id>/",views.esewa_success,name="esewa_success"),
+    path("esewa-failure/<int:id>",views.esewa_failure,name="esewa_failure"),
     
     
 
