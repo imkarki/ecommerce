@@ -211,7 +211,7 @@ EMAIL_USE_TLS = True
 env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))  # Load .env file
 
-DEBUG = env.bool("DEBUG", default=True)   #pahile False thiyo
+DEBUG = env.bool("DEBUG", default=False)   #pahile False thiyo
 
 # Email Configuration
 EMAIL_HOST_USER = env("EMAIL_HOST_USER")
